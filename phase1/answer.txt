@@ -1,0 +1,43 @@
+Set1
+1. No. When there is a Rock, Actor, Bug or the Border in front of it, it will not move to a new location.
+
+2. The bug moves forward if it can move.
+
+3. The bug rotates 45 degrees to the right until it can move.
+
+4. A bug leaves behind a flower with the same color as the bug when it moves.
+
+5. It moves forward if it can move. Otherwise, it will rotate 45 degrees to the right until it can move. I.e., when the bug is facing the edge(in a direction of 90 degrees or 45 degrees), it can not move, it will rotate 45 degrees to the right until it can move.
+
+6. It rotates 45 degrees to the right.
+
+7. No, it does not move.
+
+8. The color of the flowers turns to black gradually.
+
+9. No.
+
+10. No. There can be only one actor in the same location in the grid at the same time.
+
+Set2
+1. 
+| Degrees | Compass Direction |
+| ------- | ----------------- |
+| 0       | North             |
+| 45      | Northeast         |
+| 90      | East              |
+| 135     | Southeast         |
+| 180     | South             |
+| 225     | Southwest         |
+| 270     | West              |
+| 315     | Northwest         |
+| 360     | North             |
+
+2.
+(1) It can be moved to anywhere as long as the target coordinate is inside the grids. If there is an actor in the target gird, this actor will be erased while the bug you moved will be there.
+(2) The bug can move as far as expected as long as the target coordinate is valid(inside the grids).
+(3) A message dialog window with exception information will pop out if you try to move the bug outside the grid. And the bug will not move.
+
+3. void setColor(java.awt.Color)
+
+4. The bug kept moving.

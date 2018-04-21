@@ -1,0 +1,10 @@
+Testsuite: HelloWorldTest
+Tests run: 2, Failures: 1, Errors: 0, Time elapsed: 0.006 sec
+
+Testcase: testSayHello took 0 sec
+Testcase: testGetInt took 0 sec
+	FAILED
+expected:<21> but was:<2>
+junit.framework.AssertionFailedError: expected:<21> but was:<2>
+	at HelloWorldTest.testGetInt(Unknown Source)
+
