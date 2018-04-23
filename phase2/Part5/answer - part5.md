@@ -563,12 +563,53 @@ private Object[][] occupantArray; // the array storing the grid elements
 
 * The `UnboundedGrid` class is also implemented with `HashMap`. Thus, most of the method in the `UnboundedGrid` class can be used in the `HashMapSparseBoundedGrid` class without any change.
 
+  ```java
+  // @file: framework/info/gridworld/grid/UnboundedGrid.java
+  // @line: 33
+  private Map<Location, E> occupantMap;
+  ```
+
 * The methods of `UnboundedGrid` could be used without change are listed below:
 
   * `getOccupiedLocations`
   * `get`
   * `put`
   * `remove`
+
+  ```java
+  // @file: framework/info/gridworld/grid/UnboundedGrid.java
+  // @line: 58~87
+  public ArrayList<Location> getOccupiedLocations()
+  {
+      ArrayList<Location> a = new ArrayList<Location>();
+      for (Location loc : occupantMap.keySet())
+          a.add(loc);
+      return a;
+  }
+
+  public E get(Location loc)
+  {
+      if (loc == null)
+          throw new NullPointerException("loc == null");
+      return occupantMap.get(loc);
+  }
+
+  public E put(Location loc, E obj)
+  {
+      if (loc == null)
+          throw new NullPointerException("loc == null");
+      if (obj == null)
+          throw new NullPointerException("obj == null");
+      return occupantMap.put(loc, obj);
+  }
+
+  public E remove(Location loc)
+  {
+      if (loc == null)
+          throw new NullPointerException("loc == null");
+      return occupantMap.remove(loc);
+  }
+  ```
 
 * (Fill in the following chart to compare the expected Big-Oh efficiencies for each implementation of the `SparseBoundedGrid`. Let r = number of rows, c = number of columns, and n = number of occupied locations.)
 
@@ -586,4 +627,78 @@ private Object[][] occupantArray; // the array storing the grid elements
 
 
 ### 3
+
+* The Big-Oh efficiency of the `get` method is O(1).
+
+```java
+// @file: projects/UnboundedGrid2.java
+// @line: 60~72
+public E get(Location loc)
+{
+    if (!isValid(loc))
+    {
+        throw new IllegalArgumentException("Location " + loc
+                                           + " is not valid");
+    }
+    if (loc.getRow() >= gridLength || loc.getCol() >= gridLength)
+    {
+        return null;
+    }
+    return (E) occupantArray[loc.getRow()][loc.getCol()]; // unavoidable warning
+}
+```
+
+* The efficiency of the put method when the row and column index values are within the current array bounds is O(1).
+
+```java
+// @file: projects/UnboundedGrid2.java
+// @line: 74~95
+public E put(Location loc, E obj)
+{
+    if (!isValid(loc))
+    {
+        throw new IllegalArgumentException("Location " + loc
+                                           + " is not valid");
+    }
+    if (obj == null)
+    {
+        throw new NullPointerException("obj == null");
+    }
+
+    E oldOccupant = get(loc);
+
+    if (loc.getRow() >= gridLength || loc.getCol() >= gridLength)
+    {
+        doubleSize(loc);
+    }
+    // Add the object to the grid.
+    occupantArray[loc.getRow()][loc.getCol()] = obj;
+    return oldOccupant;
+}
+```
+
+* The efficiency when the array needs to be resized is O(n * n), where n is the `gridLength` in below:
+
+```java
+// @file: projects/UnboundedGrid2.java
+// @line: 97~114
+private void doubleSize(Location loc) {
+    int newGridLength = gridLength;
+    while (loc.getRow() >= newGridLength || loc.getCol() >= newGridLength)
+    {
+        newGridLength *= 2;
+    }
+
+    Object[][] tempArr = new Object[newGridLength][newGridLength];
+    for(int i = 0; i < gridLength; ++i)
+    {
+        for(int j = 0; j < gridLength; ++j)
+        {
+            tempArr[i][j] = occupantArray[i][j];
+        }
+    }
+    occupantArray = tempArr;
+    gridLength = newGridLength;      
+}
+```
 
